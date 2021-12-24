@@ -1,0 +1,107 @@
+package webb;
+import java.sql.*;
+import java.util.*;
+public class Student_Tablee 
+{
+public static void main(String[] args) throws Exception
+{
+	Class.forName("com.mysql.jdbc.Driver");
+    Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/admin","root","Dipali@611");
+    Statement st=con.createStatement();	
+    Scanner sc=new Scanner(System.in);
+    int ch,sno,k;
+    String sname,DOB,DOJ;
+   do
+   {
+    System.out.println("Enter the Choice:\n 1.Insert \n 2.Update \n 3.Delete \n 4.Get List Of All Students \n 5.Get one student information depending on the student id filter. ");
+    ch=sc.nextInt();
+    switch(ch)
+    {
+    case 1:
+    	System.out.println("Enter the Student No:");
+    	sno=sc.nextInt();
+    	System.out.println("Enter the Student Name:");
+    	sname=sc.next();
+    	System.out.println("Enter the Student DOB");
+        DOB=sc.next();
+    	System.out.println("Enter the Student DOJ:");
+    	DOJ=sc.next();
+    	
+    	 k=st.executeUpdate("insert into STUDENT values('"+sno+"','"+sname+"','"+DOB+"','"+DOJ+"')");
+    	if(k>=1)
+    	{
+    		System.out.println("Insert");
+    	}
+    	else
+    	{
+    		System.out.println("Not Insert");
+    	}
+    	break;
+    	
+    case 2:
+    	System.out.println("Enter the Sno for update:");
+    	sno=sc.nextInt();
+    	System.out.println("Enter the Student Name:");
+    	sname=sc.next();
+    	System.out.println("Enter the Student DOB");
+        DOB=sc.next();
+    	System.out.println("Enter the Student DOJ:");
+    	DOJ=sc.next();
+    	
+    	int k1=st.executeUpdate("update STUDENT set STUDENT_NAME='"+sname+"',STUDENT_DOB='"+DOB+"',STUDENT_DOJ='"+DOJ+"' where STUDENT_NO='"+sno+"'");
+    	if(k1>=1)
+    	{
+    		System.out.println("Update");
+    	}
+    	else
+    	{
+    		System.out.println("Not Update");
+    	}
+    	break;
+    	
+    case 3:
+    	System.out.println("Enter the Sno for Delete Record:");
+    	sno=sc.nextInt();
+    	k=st.executeUpdate("delete from STUDENT where STUDENT_NO='"+sno+"'");
+    	if(k>=1)
+    	{
+    		System.out.println("Delete");
+    	}
+    	else
+    	{
+    		System.out.println("Not Delete");
+    	}
+    	break;
+    	
+     case 4:
+    	 System.out.println("Display All Students:");
+    	 ResultSet rs=st.executeQuery("select * from STUDENT");
+    	 while(rs.next())
+    	 {
+    		 System.out.println("--------------------------------------------------------------------------------------------------------------");
+    		 System.out.println("STUDENT_NO="+rs.getInt(1));
+    		 System.out.println("STUDENT_NAME="+rs.getString(2));
+    		 System.out.println("STUDENT_DOB="+rs.getString(3));
+    		 System.out.println("STUDENT_DOJ="+rs.getString(4));
+    		 System.out.println("--------------------------------------------------------------------------------------------------------------");
+    	 }
+    	 break;
+    	 
+     case 5:
+    	 System.out.println("Enter the Sno for Get Student Information:");
+     	sno=sc.nextInt();
+     	ResultSet rs1=st.executeQuery("select * from STUDENT where STUDENT_NO='"+sno+"'");
+    	 while(rs1.next())
+    	 {
+    		 System.out.println("--------------------------------------------------------------------------------------------------------------");
+    		 System.out.println("STUDENT_NO="+rs1.getInt(1));
+    		 System.out.println("STUDENT_NAME="+rs1.getString(2));
+    		 System.out.println("STUDENT_DOB="+rs1.getString(3));
+    		 System.out.println("STUDENT_DOJ="+rs1.getString(4));
+    		 System.out.println("--------------------------------------------------------------------------------------------------------------");
+    	 }
+    	 break;
+    }
+   }while(ch<=5);
+}
+}
